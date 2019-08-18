@@ -94,6 +94,15 @@ func (s *Server) Route() *mux.Router {
 	r.Methods(http.MethodGet).Path("/articles").Handler(commonChain.Then(AppHandler{articleController.Index}))
 	r.Methods(http.MethodGet).Path("/articles/{id}").Handler(commonChain.Then(AppHandler{articleController.Show}))
 
+	homeworkController := controller.NewHomework(s.db)
+	r.Methods(http.MethodGet).Path("/homeworks").Handler(commonChain.Then(AppHandler{homeworkController.Index}))
+	r.Methods(http.MethodPost).Path("/homeworks").Handler(authChain.Then(AppHandler{homeworkController.Create}))
+
+	studentController := controller.NewStudent(s.db)
+	r.Methods(http.MethodGet).Path("/students").Handler(commonChain.Then(AppHandler{studentController.Index}))
+	r.Methods(http.MethodPost).Path("/students").Handler(authChain.Then(AppHandler{studentController.Create}))
+
+
 	r.PathPrefix("").Handler(commonChain.Then(http.StripPrefix("/img", http.FileServer(http.Dir("./img")))))
 	return r
 }

@@ -1,0 +1,11 @@
+-- +goose Up
+CREATE TABLE schools
+(
+  id INT NOT NULL AUTO_INCREMENT,
+  type VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  PRIMARY KEY(id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- +goose Down
+  DROP TABLE schools;
+
